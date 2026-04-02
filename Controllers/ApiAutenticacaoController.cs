@@ -87,9 +87,30 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
                 var jwtKey = _configuracao["JwtSettings:SecretKey"]
                 ?? "ChavePadraoSeguraDeDesenvolvimento123!";
                 var key = Encoding.ASCII.GetBytes(jwtKey);
- 
                 var tokenDescriptor = new SecurityTokenDescriptor
+                var jwtKey = _configuracao["JwtSettings:SecretKey"] ?? "ChavePadraoSeguraDeDesenvolvimento123!";
+                var key = Encoding.ASCII.GetBytes(jwtKey);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                        new Claim(ClaimTypes.Name, usuario.Nome),
+                        // <-- NOME INJETADO NO JWT AQUI
+                        new Claim(ClaimTypes.Email, usuario.Email), new Claim(ClaimTypes.Role, usuario.Perfil)
+                    }),
+                   Expires = DateTime.UtcNow.AddHours(8), SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+                var tokenString = tokenHandler.WriteToken(token);
 
+                return Ok(new { token = tokenString, perfil = usuario.Perfil, email = usuario.Email, nome = usuario.Nome });
+            }
+            catch (Exception ex)
+            {
+                string erroReal = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
+                return StatusCode(500, new { mensagem = "Erro no servidor durante o login.", detalhe = erroReal });
             }
         }
+    }
 }
