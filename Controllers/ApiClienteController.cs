@@ -65,9 +65,10 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
                 if (emailEmUso) return BadRequest(new { mensagem = "Este e-mail já está em uso por outra conta." });
             }
 
-            // Atualiza os dados usuario.Nome = dto.Nome; usuario.Email = dto.Email;
+            // Atualiza os dados
+            usuario.Nome = dto.Nome;
+            usuario.Email = dto.Email;
             _contexto.Usuarios.Update(usuario);
-
             cliente.Nome = dto.Nome;
             cliente.Telefone = dto.Telefone;
             _contexto.Clientes.Update(cliente); 

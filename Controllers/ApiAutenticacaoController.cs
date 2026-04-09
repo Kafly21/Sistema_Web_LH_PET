@@ -36,7 +36,8 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
             // 1. Cria o Usuário de acesso (AGORA PASSANDO O NOME OBRIGATÓRIO)
             var novoUsuario = new Usuario
             {
-            Nome = dto.Nome, // <-- A CORREÇÃO ESTÁ AQUI Email = dto.Email,
+            Nome = dto.Nome, // <-- A CORREÇÃO ESTÁ AQUI
+            Email = dto.Email,
             SenhaHash = BCrypt.Net.BCrypt.HashPassword(dto.Senha),
             Perfil = "Cliente", Ativo = true,
             SenhaTemporaria = false // O cliente já cria a senha que ele quer usar
@@ -45,7 +46,8 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
 
             await _contexto.SaveChangesAsync();
 
-            // 2. Cria o Perfil do Cliente vinculado var novoCliente = new Cliente
+            // 2. Cria o Perfil do Cliente vinculado
+            var novoCliente = new Cliente
             {
                 UsuarioId = novoUsuario.Id,
                 Nome = dto.Nome,

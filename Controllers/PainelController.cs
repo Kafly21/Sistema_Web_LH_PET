@@ -1,33 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace SP_03_UC08_LH_PET_WEB.Controllers
 {
     [Authorize]
-    public class ProdutosController : Controller
-
+    public class PainelController : Controller
     {
-        private readonly ILogger<PainelController> _logger;
-
-        public PainelController(ILogger<PainelController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
-            return View();
-        }
+            // Extrai o Nome, E-mail e Perfil do Cookie de Autenticação
+            ViewBag.NomeUsuario = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Name)?.Value;
+            ViewBag.EmailUsuario = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
+            ViewBag.PerfilUsuario = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role)?.Value;
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
+            return View();
         }
     }
 }
