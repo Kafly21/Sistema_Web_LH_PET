@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using LH_PET_WEB.Models;
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace SP_03_UC08_LH_PET_WEB
 {
     public class ContextoBanco : DbContext
     {

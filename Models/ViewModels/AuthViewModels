@@ -1,0 +1,36 @@
+using System;
+using System.ComponentModel.DataAnnotations; 
+
+namespace SP_03_UC08_LH_PET.ViewModels
+{
+    public class LoginViewModel
+    {
+        [Required(ErrorMessage = "O E-mail é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Formato de e-mail inválido.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "A Senha é obrigatória.")]
+        public string Senha { get; set; } = string.Empty;
+    }
+
+    public class EsqueciSenhaViewModel
+    {
+        [Required(ErrorMessage = "O E-mail é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Formato de e-mail inválido.")]
+        public string Email { get; set; } = string.Empty;
+    }
+
+    public class UsuarioCreateViewModel
+    {
+        [Required(ErrorMessage = "O Nome é obrigatório.")]
+        public string Nome { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "O E-mail é obrigatório.")]
+        [EmailAddress(ErrorMessage = "Formato de e-mail inválido.")] 
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "O Perfil é obrigatório.")]
+        public string Perfil { get; set; } = "Funcionario";
+    }
+
+}
