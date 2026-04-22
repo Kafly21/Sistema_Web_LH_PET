@@ -1,28 +1,26 @@
-using System; 
-using System.Net;
-using System; 
-using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
-namespace SP_03_UC08_LH_PET_WEB
-
-namespace SP_03_UC08_LH_PET_WEB_Validations
+namespace LH_PET_WEB.Validations
 {
     public class CpfAttribute : ValidationAttribute
     {
         public override bool IsValid(object? value)
         {
             if (value == null || string.IsNullOrWhiteSpace(value.ToString()))
-            return false;
+            {
+                return false;
+            }
 
             //Remove ponto e traço
-            var cpf = value.ToString()!.Replace(".", "").Replace("-", "");
+            var cpf = value.ToString()!.Replace(".", "").Replace("-", "").Trim();
 
             //Verifica se tem 11 dígitos
             if (cpf.Length != 11 || !cpf.All(char.IsDigit))
-            return false;
+            {
+                return false;
+            }
 
             int[] multiplicador1 = new int[9] { 10, 9, 8, 7, 6, 5, 4, 3, 2 };
             int[] multiplicador2 = new int[10] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 };
@@ -30,8 +28,10 @@ namespace SP_03_UC08_LH_PET_WEB_Validations
             string tempCpf = cpf.Substring(0, 9);
             int soma = 0;
 
-            for (int i = 0; i < 9; i++);
-            soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+            for (int i = 0; i < 9; i++)
+            {
+                soma += int.Parse(tempCpf[i].ToString()) * multiplicador1[i];
+            }
 
             int resto = soma % 11;
             if (resto < 2) resto = 0;
@@ -42,11 +42,16 @@ namespace SP_03_UC08_LH_PET_WEB_Validations
             soma = 0;
 
             for (int i = 0; i < 10; i++)
-            soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+            {
+                soma += int.Parse(tempCpf[i].ToString()) * multiplicador2[i];
+            }
 
             resto = soma % 11;
-            if (resto < 2) resto = 0; else resto = 11 - resto;
-            digito = digito + resto.ToString(); return cpf.EndsWith(digito);
+            if (resto < 2) resto = 0;
+            else resto = 11 - resto;
+
+            digito += resto.ToString();
+            return cpf.EndsWith(digito);
         }
 
         public override string FormatErrorMessage(string name)

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     [Authorize]
     public class PainelController : Controller

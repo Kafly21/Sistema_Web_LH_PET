@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace SP_03_UC08_LH_PET.ViewModels
+namespace LH_PET_WEB.Models.ViewModels
 {
     public class RelatorioDashboardViewModel
     {

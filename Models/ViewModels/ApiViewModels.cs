@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations; 
 using LH_PET_WEB.Validations;
 
-namespace SP_03_UC08_LH_PET.ViewModels
+namespace LH_PET_WEB.Models.ViewModels
 {
     public class ApiLoginDTO
     {
@@ -48,6 +48,18 @@ namespace SP_03_UC08_LH_PET.ViewModels
 
         [Required]
         public DateTime DataNascimento { get; set; }
+    }
+
+    public class ApiAgendamentoDTO
+    {
+        [Required]
+        public int PetId { get; set; }
+
+        [Required]
+        public DateTime DataHora { get; set; }
+
+        [Required]
+        public string Tipo { get; set; } = string.Empty;
     }
 
     public class ApiPerfilUpdateDTO

@@ -7,12 +7,13 @@ using LH_PET_WEB.Models.ViewModels;
 using LH_PET_WEB.Services;
 
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class UsuariosController : Controller
     {
-        private readonly ContextoBanco _contexto; private readonly IEmailService _emailService;
+        private readonly ContextoBanco _contexto;
+        private readonly IEmailService _emailService;
 
         public UsuariosController(ContextoBanco contexto, IEmailService emailService)
         {

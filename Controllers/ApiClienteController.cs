@@ -7,7 +7,7 @@ using LH_PET_WEB.Data;
 using LH_PET_WEB.Models;
 using LH_PET_WEB.Models.ViewModels;
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = "Cliente")]
     [ApiController] [Route("api/cliente")]
@@ -54,8 +54,6 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
 
             var usuario = await _contexto.Usuarios.FindAsync(cliente.UsuarioId);        
             if (usuario == null) return NotFound();
-
-            var usuario = await 
 
             // Proteção: Se ele trocou o e-mail, precisamos ver se já não existe
             if (usuario.Email != dto.Email)

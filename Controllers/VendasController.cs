@@ -8,7 +8,7 @@ using LH_PET_WEB.Services; // Necessário para o IEmailService
 
 
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     [Authorize]
     public class VendasController : Controller
@@ -107,6 +107,7 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
             .Include(v => v.Usuario) // Traz os dados de quem fez a venda
             .OrderByDescending(v => v.DataVenda)
             .ToListAsync();
+            return View(vendas);
         }
 
         // ==========================================

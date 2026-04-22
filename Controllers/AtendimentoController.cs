@@ -5,7 +5,7 @@ using LH_PET_WEB.Data;
 using LH_PET_WEB.Models;
 
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     [Authorize]
     public class AtendimentoController : Controller
@@ -40,7 +40,7 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
             if (agendamento != null)
             {
                 agendamento.Status = novoStatus;
-                _contexto.Agendamento.Update(agendamento);
+                _contexto.Agendamentos.Update(agendamento);
                 await _contexto.SaveChangesAsync();
                 TempData["Sucesso"] = $"Status atualizado para {novoStatus}.";
             }

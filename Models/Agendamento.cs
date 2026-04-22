@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Models
 {
     [Table("tb_agendamento")] public class Agendamento
     {
@@ -31,7 +31,8 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
         [Column("ds_status")]
         public string Status { get; set; } = "Pendente"; 
 
-        // Relacionamentos [ForeignKey("PetId")] public Pet? Pet { get; set; }
+        [ForeignKey("PetId")]
+        public Pet? Pet { get; set; }
 
         public Atendimento? Atendimento { get; set; }
     }

@@ -9,7 +9,7 @@ using LH_PET_WEB.Data;
 using LH_PET_WEB.Models.ViewModels;
 
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
    [Authorize(Roles = "Admin")] // Apenas o Dono/Gerente pode ver os lucros
    public class RelatoriosController : Controller

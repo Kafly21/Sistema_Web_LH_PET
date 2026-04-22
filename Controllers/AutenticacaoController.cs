@@ -8,7 +8,7 @@ using LH_PET_WEB.Services;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     public class AutenticacaoController : Controller
     {
@@ -47,14 +47,14 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
 
             if (usuario.SenhaTemporaria)
             {
-                TempData["ResetUsuarioId"] = "usuario.Id";
-                TempData["AvisoTemporario"] = "Sua senha é temporaria. Por favor, defina uma nova senha segura para continuar.";
+                TempData["ResetUsuarioId"] = usuario.Id;
+                TempData["AvisoTemporario"] = "Sua senha é temporária. Por favor, defina uma nova senha segura para continuar.";
                 return RedirectToAction(nameof(RedefinirSenha));
             }
 
             // Realiza o Login Efetivo passando o NOME agora
             await FazerLoginNoCookie(usuario.Id, usuario.Nome, usuario.Email, usuario.Perfil);
-            return RedirectToAction("Index", "Painel"); 
+            return RedirectToAction("Index", "Painel");
         }
 
         [HttpGet]
@@ -101,10 +101,13 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
             {
                 new Claim(ClaimTypes.NameIdentifier, id.ToString()),
                 new Claim(ClaimTypes.Name, nome ?? "Usuário"), // <--- O NOME ENTRA
-                new Claim(ClaimTypes.Email, email), new Claim(ClaimTypes.Role, perfil)
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Role, perfil)
             };
 
-            var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            var identidade = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identidade);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
         }
 
         [HttpGet]

@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations; 
 
-namespace SP_03_UC08_LH_PET.ViewModels
+namespace LH_PET_WEB.Models.ViewModels
 {
     public class LoginViewModel
     {
@@ -31,6 +31,18 @@ namespace SP_03_UC08_LH_PET.ViewModels
 
         [Required(ErrorMessage = "O Perfil é obrigatório.")]
         public string Perfil { get; set; } = "Funcionario";
+    }
+
+    public class RedefinirSenhaViewModel
+    {
+        [Required(ErrorMessage = "A nova senha é obrigatória.")]
+        [DataType(DataType.Password)]
+        public string NovaSenha { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "A confirmação de senha é obrigatória.")]
+        [DataType(DataType.Password)]
+        [Compare("NovaSenha", ErrorMessage = "As senhas não coincidem.")]
+        public string ConfirmarSenha { get; set; } = string.Empty;
     }
 
 }

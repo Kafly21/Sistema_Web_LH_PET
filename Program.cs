@@ -1,3 +1,11 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using LH_PET_WEB.Data;
+using LH_PET_WEB.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

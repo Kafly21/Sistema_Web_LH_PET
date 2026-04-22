@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using LH_PET_WEB.Data;
+using LH_PET_WEB.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     [Authorize]
     public class ProdutosController : Controller
@@ -118,9 +124,9 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
                     }
                     else
                     {
-                        // Se não enviou foto nova, mantém o caminho da foto antiga var produtoBanco = await
-                        _contexto.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
-                        if(produtoBanco != null) model.ImagemUrl = produtoBanco.ImagemUrl;
+                        // Se não enviou foto nova, mantém o caminho da foto antiga
+                        var produtoBanco = await _contexto.Produtos.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+                        if (produtoBanco != null) model.ImagemUrl = produtoBanco.ImagemUrl;
                     }
                     _contexto.Produtos.Update(model); await _contexto.SaveChangesAsync();
                     TempData["Sucesso"] = "Produto atualizado com sucesso!";

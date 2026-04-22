@@ -8,7 +8,7 @@ using LH_PET_WEB.Data;
 using LH_PET_WEB.Models;
 using LH_PET_WEB.Models.ViewModels;
 
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Controllers
 {
     [ApiController] [Route("api/auth")]
     public class ApiAutenticacaoController : ControllerBase
@@ -58,7 +58,7 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
             _contexto.Clientes.Add(novoCliente);
             await _contexto.SaveChangesAsync();
 
-            return Ok(new { mensagem = "Conta criada com sucesso!"})
+            return Ok(new { mensagem = "Conta criada com sucesso!"});
         }
         catch (Exception ex)
         {
@@ -80,16 +80,12 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
             {
                 var usuario = await _contexto.Usuarios.FirstOrDefaultAsync (u => u.Email == dto.Email);
 
-                if (usuario == null || !Bcrypt.Net.Bcrypt.Verify(dto.Senha, usuario.SenhaHash))
+                if (usuario == null || !BCrypt.Net.BCrypt.Verify(dto.Senha, usuario.SenhaHash))
                 {
                     return Unauthorized(new { mensagem = "Credenciais inválidas." });
                 }
 
                 var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtKey = _configuracao["JwtSettings:SecretKey"]
-                ?? "ChavePadraoSeguraDeDesenvolvimento123!";
-                var key = Encoding.ASCII.GetBytes(jwtKey);
-                var tokenDescriptor = new SecurityTokenDescriptor
                 var jwtKey = _configuracao["JwtSettings:SecretKey"] ?? "ChavePadraoSeguraDeDesenvolvimento123!";
                 var key = Encoding.ASCII.GetBytes(jwtKey);
                 var tokenDescriptor = new SecurityTokenDescriptor
@@ -98,10 +94,11 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
                     {
                         new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
                         new Claim(ClaimTypes.Name, usuario.Nome),
-                        // <-- NOME INJETADO NO JWT AQUI
-                        new Claim(ClaimTypes.Email, usuario.Email), new Claim(ClaimTypes.Role, usuario.Perfil)
+                        new Claim(ClaimTypes.Email, usuario.Email),
+                        new Claim(ClaimTypes.Role, usuario.Perfil)
                     }),
-                   Expires = DateTime.UtcNow.AddHours(8), SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    Expires = DateTime.UtcNow.AddHours(8),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 var tokenString = tokenHandler.WriteToken(token);

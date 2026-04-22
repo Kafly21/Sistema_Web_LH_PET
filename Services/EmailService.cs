@@ -4,7 +4,7 @@ using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 
-namespace SP_03_UC08_LH_PET_WEB
+namespace LH_PET_WEB.Services
 {
     public interface IEmailService
     {
@@ -24,11 +24,11 @@ namespace SP_03_UC08_LH_PET_WEB
         {
             try
             {
-                string servidor = _configuracao["SmtpConfig:Servidor"] ?? "smtp.office365.com"; ; 
+                string servidor = _configuracao["SmtpConfig:Servidor"] ?? "smtp.office365.com";
                 int porta = int.Parse(_configuracao["SmtpConfig:Porta"] ?? "587");
                 string remetente = _configuracao["SmtpConfig:Usuario"] ?? "";
                 string senha = _configuracao["SmtpConfig:Senha"] ?? "";
-                if(string.IsNullOrEmpty(remetente) || string.IsNullOrEmpty(senha))
+                if (string.IsNullOrEmpty(remetente) || string.IsNullOrEmpty(senha))
                 {
                     Console.WriteLine("AVISO: Credenciais de E-mail não configuradas.");
                     return false;
@@ -43,7 +43,7 @@ namespace SP_03_UC08_LH_PET_WEB
 
                     correio.IsBodyHtml = true;
 
-                    using (var clienteSmtp = new SmtpCliente(servidor, porta))
+                    using (var clienteSmtp = new SmtpClient(servidor, porta))
                     {
                         clienteSmtp.Credentials = new NetworkCredential(remetente, senha);
                         clienteSmtp.EnableSsl = true;

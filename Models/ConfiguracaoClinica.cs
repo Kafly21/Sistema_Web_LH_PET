@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-
-namespace SP_03_UC08_LH_PET_WEB.Controllers
+namespace LH_PET_WEB.Models
 {
     [Table("tb_configuracao_clinica")] public class ConfiguracaoClinica
     {
@@ -17,6 +16,10 @@ namespace SP_03_UC08_LH_PET_WEB.Controllers
         [Required(ErrorMessage = "O horário de abertura é obrigatório.")]
         [Column("tm_abertura")]
         public TimeSpan HoraAbertura { get; set; }
+
+        [Required(ErrorMessage = "O horário de fechamento é obrigatório.")]
+        [Column("tm_fechamento")]
+        public TimeSpan HoraFechamento { get; set; }
 
         [Column("ds_dias_trabalho")]
         public string DiasTrabalho { get; set; } = string.Empty; // Guardará "1,2,3,4,5" (Segunda a Sexta)
